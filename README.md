@@ -40,6 +40,7 @@ public:
 		
 		for (int i = 0; i < SectionCnt; i++)
 		{
+			FMyMeshSection &MeshSection = Component->MeshSections[i];
 			Options.bIsVisible = MeshSection.Visible;
 			Sections[i] = new FSimpleMeshSceneSection(MeshSection.VertexBuffer, MeshSection.IndexBuffer, 
 				Component->GetMaterial(MeshSection.MaterialIndex), Options, FL);
