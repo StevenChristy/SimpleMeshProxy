@@ -7,8 +7,14 @@ The purpose of the SimpleMeshProxy is to provide a base mesh proxy that can be u
 ## Features
 
 * Static Rendering Path
-* RayTracing (untested)
+* RayTracing
 * Streamlined and Easy to Customize
+* UE5 Ready
+
+### Not Available
+
+* Distance Field support (I don't know how to implement this yet)
+* RVT pass rendering (todo)
 
 ## Example
 
@@ -53,7 +59,5 @@ public:
 
 ## TODO
 The following tasks have not yet been done
-* Test the RayTracing Render code (I'll get around to it)
-* Test/Porting to UE5 (a few months away)
-* Test versions other than than 4.26
+* Test versions other than than 4.26 (i.e. 4.27)
 * Add ability to change visibility of a section without re-creating the scene proxy (soon).
