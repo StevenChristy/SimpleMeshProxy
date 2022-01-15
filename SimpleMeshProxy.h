@@ -38,7 +38,9 @@ SOFTWARE.
 #include "DynamicMeshBuilder.h"
 #include "StaticMeshResources.h"
 #include "RayTracingInstance.h"
+#if ENGINE_MAJOR_VERSION==4
 #include "TessellationRendering.h"
+#endif
 
 DECLARE_STATS_GROUP(TEXT("SimpleMeshProxy"), STATGROUP_SimpleMeshProxy, STATCAT_Advanced);
 DECLARE_CYCLE_STAT(TEXT("SimpleMeshProxy - CreateMeshBatch"), STAT_SimpleMeshSceneProxy_CreateMeshBatch, STATGROUP_SimpleMeshProxy);
@@ -67,7 +69,7 @@ class FSimpleMeshSceneSection
 public:
 	int NumPrimitives = 0;
 	int MaxVertex = 0;
-	int LODIndex = -1;
+	int LODIndex = 0;
 	UMaterialInterface* Material = nullptr;
 	FStaticMeshVertexBuffers VertexBuffers;
 	FDynamicMeshIndexBuffer32 IndexBuffer;
@@ -232,9 +234,11 @@ public:
 		// Should we be rendering in wireframe?
 		const bool bRenderWireframe = WireframeMaterial != nullptr;
 
+#if ENGINE_MAJOR_VERSION==4
 		// Decide if we should be using adjacency information for this material
 		const bool bWantsAdjacencyInfo = !bForRayTracing && !bRenderWireframe && RequiresAdjacencyInformation(Section.Material, Section.VertexFactory.GetType(), GetScene().GetFeatureLevel());
 		check(!bWantsAdjacencyInfo);
+#endif
 
 		const FMaterialRenderProxy* MaterialRenderProxy = Section.Material->GetRenderProxy();
 
@@ -369,7 +373,6 @@ public:
 					FTransform GeomTransform(GetLocalToWorld());
 					BodySetup->AggGeom.GetAggGeom(GeomTransform, GetSelectionColor(FColor(157, 149, 223, 255), IsSelected(), IsHovered()).ToFColor(true), NULL, false, false, DrawsVelocity(), ViewIndex, Collector);
 				}
-
 				// Render bounds
 				RenderBounds(Collector.GetPDI(ViewIndex), ViewFamily.EngineShowFlags, GetBounds(), IsSelected());
 			}
